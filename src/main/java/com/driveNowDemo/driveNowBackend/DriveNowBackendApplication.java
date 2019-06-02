@@ -1,0 +1,13 @@
+package com.driveNowDemo.driveNowBackend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DriveNowBackendApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DriveNowBackendApplication.class, args);
+	}
+
+}
