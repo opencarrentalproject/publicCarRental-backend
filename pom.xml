@@ -8,11 +8,11 @@
 		<version>2.1.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.driveNowDemo</groupId>
-	<artifactId>driveNowBackend</artifactId>
+	<groupId>com.publicCarRentalDemo</groupId>
+	<artifactId>publicCarRental-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>driveNowBackend</name>
-	<description>Demo microservice project for DriveNow</description>
+	<name>publicCarRental-backend</name>
+	<description>Demo microservice project for PublicCarRental</description>
 
 	<properties>
 		<java.version>1.8</java.version>
