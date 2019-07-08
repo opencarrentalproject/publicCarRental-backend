@@ -1,0 +1,27 @@
+language: java
+jdk:
+- openjdk8
+services:
+- docker
+env:
+  global:
+  - IMAGE_NAME=publiccarrental/public_car_rental_backend
+  - secure: JYkV5JOOkUeGUrLZevAsUJ1sisXXxdFyd9+1Jcno+lnQQf4XaTSXC3RSBbCW08NVRft1yr45x7mKw+gaYXcLxQN+7Ao98ho+2HClpGUasTR9Vw/XUUoB3aP1d+Qqf04CoGq3URPkKfxCzIvRI+oIlGCKf8xgW0G7b0NAsPrbXTSU6W2tOlc9BmQ5F1BzSSiojTOzLoJAlud19xBWr4YlBYCIq6dtt0pvphB9L3qRd1fOGnY2W+qcqEhHpnvlneD1hSQMrt2ygYV/dvOMOdbrvvfr6gaAF0qplRkr4h4KJgSIDv/Jz32Xy9Wg5nvW8wP1qe1y5YBHKMBczbgz2qfP84RFfIanm4wS45HokKQFnLOTJFJOwKtAz9c79NMvG2uTGQoSzGc/gC4POSaQbUp+DHxvhv5GHgWmHACKQEIOXUVQy9AqDwI/gXcMaV0BhkCmf7MeAvYXZuL8ku5W5t8GEeMwJmj99y3waIY0hPoxfh6NAlVTJiqZBQfnvHfGh7KVXxhEgMtuG1NtbymcX1uo3eU2avKo+hUaTXxvpMek1yIcX7x99/vorrL83Ac2bVR2S4Eg9KB9XW9g/IZeN2QPdZlSBS1KzuXPA4EUqXDfl9303Pm9hwsiZslh4eDW+dy9O9RxdloPoHEir2e4eDFW5wN9d+7mPbDc6fNNw4b1Mls=
+  - secure: WFquOZjIpVQIWijiUnltbEhNBf71zt9lk8oNBXgvzspCXjuIH4D0gMbXAjOIf+2Pn+8DBGZ1z95fMkVqhifL4n4ah0v3qqSL9Is40cU122PO2GRvS4f4V+yD21Owafu0SD8QrN2n82hVjccsJxB5Ttgp/DadNOGdvh2gX0Kb8kXkSS/uPQkhKiJNtcEpzlAk/HrDs9YAioh6udVmXsgIVBSObNyfh84Dbon/Em2uPXVhBLFR32mo8f8kadlewIUQmf4PtN3losSLqM5iHl3wJMkTTuv6RznI3JP7u5c2LMIiHaXSXopB/l5EObCfDWNyJP9ywMOOjF5e68Nk2z/YF7DmNrlmTF1rXp+7rFNHp2rtwm5gYcPsA8YLklZ566tChmU8LF2XrnzbyV75sWu7Wp4nH+dj3RugDa6UG1imcTyyxEZQfu0EPIfNLW5eQ12mNC05qEeMO4aTLLMa9ty9WkQFV+rwVvRS/5cPMSka6RDXeBF4DOLRTy/o7iaU2OUtOP8Mv5670bmHKr2evRDoLiwsFr8M9WWVPfvmepzu6rCDUExrbPfOavKIJNDQGcAe56gV2UUcanz6Z9ZL56paZkdCunT5aDjAvn0eiFB5EN4Pd7iLS+8A3V3g8qheAUXJQeEcT5tI9mBiy1M9BNlbs1pxC9v4ciEapDgKrOw8fIU=
+before_install:
+- docker pull openjdk:8-jdk-alpine
+script:
+- mvn test
+- mvn clean package
+after_success:
+- export COMMIT=${TRAVIS_COMMIT::7}
+- export TAG=`if [ ! -z "$TRAVIS_TAG" ]; then echo "$TRAVIS_TAG"; else echo "$TRAVIS_BRANCH--$COMMIT" | tr / _;
+  fi`
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- docker build -t $IMAGE_NAME .
+- docker tag $IMAGE_NAME:latest $IMAGE_NAME:$TAG
+- docker push $IMAGE_NAME:$TAG
+
+after_failure:
+- export TITLE="Travis:$TRAVIS_JOB_ID -- build job is failed"
+- export TEXT=[datetime]:`date`
