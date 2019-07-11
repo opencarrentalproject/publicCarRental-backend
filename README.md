@@ -10,7 +10,7 @@ While providing a car for a user the system should choose the most beneficial tr
 
 System should provide a dashboard showing available cars with their actual locations and attributes. Furthermore, on a map view locations and travelled distances of cars should be shown to the users.
 
-The system should provide a service evaluation page for a user to evaluate trip satisfaction in terms of comfort, safety and driver. The ratings range should be from 1 to 5.
+The system should provide a service evaluation page for a user to evaluate trip satisfaction in terms of comfort, safety and driver experience. The ratings range should be from 1 to 5.
 
 ### Used Technologies
 
