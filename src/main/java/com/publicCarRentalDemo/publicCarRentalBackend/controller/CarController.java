@@ -1,7 +1,9 @@
 package com.publicCarRentalDemo.publicCarRentalBackend.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.publicCarRentalDemo.publicCarRentalBackend.car.Car;
@@ -38,5 +40,21 @@ public class CarController {
     @DeleteMapping("/cars/{id}")
     public void deleteCar(@PathVariable String id) {
         repository.deleteById(id);
+    }
+
+    @PutMapping("/cars/{id}")
+    public ResponseEntity<Car> updateStudent(@RequestBody Car car, @PathVariable String id) {
+
+        Optional<Car> carOptional = repository.findById(id);
+
+        if (!carOptional.isPresent())
+            return ResponseEntity.notFound().build();
+
+        Car toUpdate = car.toBuilder().id(id).build();
+
+
+        repository.save(toUpdate);
+
+        return ResponseEntity.noContent().build();
     }
 }
