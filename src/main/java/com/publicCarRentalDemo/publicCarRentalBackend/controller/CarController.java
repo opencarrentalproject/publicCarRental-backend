@@ -19,7 +19,7 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    List<Car> all() {
+    List<Car> getAllCars() {
         return repository.findAll();
     }
 
@@ -28,22 +28,28 @@ public class CarController {
         return repository.save(car);
     }
 
-    // Single item
-
     @GetMapping("/cars/{id}")
-    Car single(@PathVariable final String id) {
+    Car getCar(@PathVariable final String id) {
 
         return repository.findById(id)
                 .orElseThrow(() -> new CarNotFoundException(id));
     }
 
     @DeleteMapping("/cars/{id}")
-    public void deleteCar(@PathVariable String id) {
+    public ResponseEntity<Object> deleteCar(@PathVariable String id) {
+
+        Optional<Car> carOptional = repository.findById(id);
+
+        if (!carOptional.isPresent())
+            return ResponseEntity.notFound().build();
+
+
         repository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/cars/{id}")
-    public ResponseEntity<Car> updateStudent(@RequestBody Car car, @PathVariable String id) {
+    public ResponseEntity<Car> updateCar(@RequestBody Car car, @PathVariable String id) {
 
         Optional<Car> carOptional = repository.findById(id);
 
