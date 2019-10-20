@@ -11,7 +11,7 @@ import com.publicCarRentalDemo.publicCarRentalBackend.Color;
 import com.publicCarRentalDemo.publicCarRentalBackend.infotainment.Infotainment;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 public class Car {
 
     @Id

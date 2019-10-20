@@ -1,12 +1,10 @@
 package com.publicCarRentalDemo.publicCarRentalBackend.controller;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.publicCarRentalDemo.publicCarRentalBackend.car.Car;
 import com.publicCarRentalDemo.publicCarRentalBackend.car.CarRepository;
@@ -21,7 +19,7 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    List<Car> all() {
+    List<Car> getAllCars() {
         return repository.findAll();
     }
 
@@ -30,12 +28,39 @@ public class CarController {
         return repository.save(car);
     }
 
-    // Single item
-
     @GetMapping("/cars/{id}")
-    Car single(@PathVariable final String id) {
+    Car getCar(@PathVariable final String id) {
 
         return repository.findById(id)
                 .orElseThrow(() -> new CarNotFoundException(id));
+    }
+
+    @DeleteMapping("/cars/{id}")
+    public ResponseEntity<Object> deleteCar(@PathVariable String id) {
+
+        Optional<Car> carOptional = repository.findById(id);
+
+        if (!carOptional.isPresent())
+            return ResponseEntity.notFound().build();
+
+
+        repository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/cars/{id}")
+    public ResponseEntity<Car> updateCar(@RequestBody Car car, @PathVariable String id) {
+
+        Optional<Car> carOptional = repository.findById(id);
+
+        if (!carOptional.isPresent())
+            return ResponseEntity.notFound().build();
+
+        Car toUpdate = car.toBuilder().id(id).build();
+
+
+        repository.save(toUpdate);
+
+        return ResponseEntity.noContent().build();
     }
 }
