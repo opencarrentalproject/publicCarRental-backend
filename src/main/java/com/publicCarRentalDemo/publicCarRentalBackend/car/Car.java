@@ -10,6 +10,8 @@ import java.util.Arrays;
 import com.publicCarRentalDemo.publicCarRentalBackend.Color;
 import com.publicCarRentalDemo.publicCarRentalBackend.infotainment.Infotainment;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Builder(toBuilder = true)
 public class Car {
@@ -17,10 +19,19 @@ public class Car {
     @Id
     private String id;
 
+    @NotBlank(message = "{brand.notblank}")
     private String brand;
+
+    @NotBlank(message = "{model.notblank}")
     private String model;
+
+    @NotBlank(message = "{constructionYear.notblank}")
     private String constructionYear;
+
+    @NotBlank(message = "{color.notblank}")
     private Color color;
+
+    @NotBlank(message = "{fuelType.notblank}")
     private String fuelType;
     private int fuelConsumption;
     private int numberOfDoors;
