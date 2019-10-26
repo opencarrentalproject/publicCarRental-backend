@@ -1,5 +1,8 @@
 package com.publicCarRentalDemo.publicCarRentalBackend;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -66,36 +69,69 @@ public class PublicCarRentalBackendApplicationTests {
 
 	@Test
 	public void givenACarWhenCalling_POST_endpoint_ThenRespondWithStatusOK() {
-		String carToBeAddedJSONString = "{\"id\":\"101\",\"brand\":\"BMW\",\"model\":\"5.20\"," +
-				"\"constructionYear\":\"2019\",\"color\":\"GRAY\",\"fuelType\":\"Benzin\",\"fuelConsumption\":5," +
-				"\"numberOfDoors\":4,\"numberOfSeats\":4,\"numberOfCylinders\":8,\"infotainmentTypes\":[\"NAVIGATION\"," +
-				"\"AIRCONDITION\"]}";
+		Gson gson = new Gson();
+		JsonObject carToBeAdded = new JsonObject();
+		JsonArray infotainmentTypes = new JsonArray();
+
+		carToBeAdded.addProperty("id", "101");
+		carToBeAdded.addProperty("brand", "BMW");
+		carToBeAdded.addProperty("model", "5.20");
+		carToBeAdded.addProperty("constructionYear", "2019");
+		carToBeAdded.addProperty("color", "GRAY");
+		carToBeAdded.addProperty("fuelType", "Benzin");
+		carToBeAdded.addProperty("fuelConsumption", 5);
+		carToBeAdded.addProperty("numberOfDoors", 4);
+		carToBeAdded.addProperty("numberOfSeats", 4);
+		carToBeAdded.addProperty("numberOfCylinders", 8);
+
+		infotainmentTypes.add("NAVIGATION");
+		infotainmentTypes.add("AIRCONDITION");
+		carToBeAdded.add("infotainmentTypes", infotainmentTypes);
+
+		String carToBeAddedAsString = gson.toJson(carToBeAdded);
 
 		given().
 				contentType("application/json").
-				body(carToBeAddedJSONString).
+				body(carToBeAddedAsString).
 				when().
 				post("/cars").
 				then().
 				assertThat().
-				body(equalTo(carToBeAddedJSONString));
+				body(equalTo(carToBeAddedAsString));
 	}
+
 
 	@Test
 	public void givenACarWhenCalling_DELETE_endpoint_ThenRespondWithStatusOK() {
-		String carToBeAddedJSONString = "{\"id\":\"101\",\"brand\":\"BMW\",\"model\":\"5.20\"," +
-				"\"constructionYear\":\"2019\",\"color\":\"GRAY\",\"fuelType\":\"Benzin\",\"fuelConsumption\":5," +
-				"\"numberOfDoors\":4,\"numberOfSeats\":4,\"numberOfCylinders\":8,\"infotainmentTypes\":[\"NAVIGATION\"," +
-				"\"AIRCONDITION\"]}";
+		Gson gson = new Gson();
+		JsonObject carToBeAdded = new JsonObject();
+		JsonArray infotainmentTypes = new JsonArray();
+
+		carToBeAdded.addProperty("id", "101");
+		carToBeAdded.addProperty("brand", "BMW");
+		carToBeAdded.addProperty("model", "5.20");
+		carToBeAdded.addProperty("constructionYear", "2019");
+		carToBeAdded.addProperty("color", "GRAY");
+		carToBeAdded.addProperty("fuelType", "Benzin");
+		carToBeAdded.addProperty("fuelConsumption", 5);
+		carToBeAdded.addProperty("numberOfDoors", 4);
+		carToBeAdded.addProperty("numberOfSeats", 4);
+		carToBeAdded.addProperty("numberOfCylinders", 8);
+
+		infotainmentTypes.add("NAVIGATION");
+		infotainmentTypes.add("AIRCONDITION");
+		carToBeAdded.add("infotainmentTypes", infotainmentTypes);
+
+		String carToBeAddedAsString = gson.toJson(carToBeAdded);
 
 		given().
 				contentType("application/json").
-				body(carToBeAddedJSONString).
+				body(carToBeAddedAsString).
 				when().
 				post("/cars").
 				then().
 				assertThat().
-				body(equalTo(carToBeAddedJSONString));
+				body(equalTo(carToBeAddedAsString));
 
 		String carIDToBeDeleted = "101";
 
@@ -110,19 +146,35 @@ public class PublicCarRentalBackendApplicationTests {
 
 	@Test
 	public void givenNonMatchingVINWhenCalling_DELETE_endpoint_ThenRespondWithStatusNotFound() {
-		String carToBeAddedJSONString = "{\"id\":\"101\",\"brand\":\"BMW\",\"model\":\"5.20\"," +
-				"\"constructionYear\":\"2019\",\"color\":\"GRAY\",\"fuelType\":\"Benzin\",\"fuelConsumption\":5," +
-				"\"numberOfDoors\":4,\"numberOfSeats\":4,\"numberOfCylinders\":8,\"infotainmentTypes\":[\"NAVIGATION\"," +
-				"\"AIRCONDITION\"]}";
+		Gson gson = new Gson();
+		JsonObject carToBeAdded = new JsonObject();
+		JsonArray infotainmentTypes = new JsonArray();
+
+		carToBeAdded.addProperty("id", "101");
+		carToBeAdded.addProperty("brand", "BMW");
+		carToBeAdded.addProperty("model", "5.20");
+		carToBeAdded.addProperty("constructionYear", "2019");
+		carToBeAdded.addProperty("color", "GRAY");
+		carToBeAdded.addProperty("fuelType", "Benzin");
+		carToBeAdded.addProperty("fuelConsumption", 5);
+		carToBeAdded.addProperty("numberOfDoors", 4);
+		carToBeAdded.addProperty("numberOfSeats", 4);
+		carToBeAdded.addProperty("numberOfCylinders", 8);
+
+		infotainmentTypes.add("NAVIGATION");
+		infotainmentTypes.add("AIRCONDITION");
+		carToBeAdded.add("infotainmentTypes", infotainmentTypes);
+
+		String carToBeAddedAsString = gson.toJson(carToBeAdded);
 
 		given().
 				contentType("application/json").
-				body(carToBeAddedJSONString).
+				body(carToBeAddedAsString).
 				when().
 				post("/cars").
 				then().
 				assertThat().
-				body(equalTo(carToBeAddedJSONString));
+				body(equalTo(carToBeAddedAsString));
 
 		String nonMatchingVIN = "5";
 
@@ -137,30 +189,60 @@ public class PublicCarRentalBackendApplicationTests {
 
 	@Test
 	public void givenACarWhenCalling_UPDATE_endpoint_ThenRespondWithStatusNoContent() {
-		String carToBeAddedJSONString = "{\"id\":\"101\",\"brand\":\"BMW\",\"model\":\"5.20\"," +
-				"\"constructionYear\":\"2019\",\"color\":\"GRAY\",\"fuelType\":\"Benzin\",\"fuelConsumption\":5," +
-				"\"numberOfDoors\":4,\"numberOfSeats\":4,\"numberOfCylinders\":8,\"infotainmentTypes\":[\"NAVIGATION\"," +
-				"\"AIRCONDITION\"]}";
+		Gson gson = new Gson();
+		JsonObject carToBeAdded = new JsonObject();
+		JsonArray infotainmentTypes = new JsonArray();
 
-		String carAfterBeingUpdatedJSONString = "{\"id\":\"101\",\"brand\":\"BMW\",\"model\":\"5.20\"," +
-				"\"constructionYear\":\"2019\",\"color\":\"BLUE\",\"fuelType\":\"Benzin\",\"fuelConsumption\":7," +
-				"\"numberOfDoors\":4,\"numberOfSeats\":4,\"numberOfCylinders\":8,\"infotainmentTypes\":[\"NAVIGATION\"," +
-				"\"AIRCONDITION\"]}";
+		carToBeAdded.addProperty("id", "101");
+		carToBeAdded.addProperty("brand", "BMW");
+		carToBeAdded.addProperty("model", "5.20");
+		carToBeAdded.addProperty("constructionYear", "2019");
+		carToBeAdded.addProperty("color", "GRAY");
+		carToBeAdded.addProperty("fuelType", "Benzin");
+		carToBeAdded.addProperty("fuelConsumption", 5);
+		carToBeAdded.addProperty("numberOfDoors", 4);
+		carToBeAdded.addProperty("numberOfSeats", 4);
+		carToBeAdded.addProperty("numberOfCylinders", 8);
+
+		infotainmentTypes.add("NAVIGATION");
+		infotainmentTypes.add("AIRCONDITION");
+		carToBeAdded.add("infotainmentTypes", infotainmentTypes);
+
+		String carToBeAddedAsString = gson.toJson(carToBeAdded);
+
+		JsonObject carAfterBeingUpdated = new JsonObject();
+
+		carAfterBeingUpdated.addProperty("id", "101");
+		carAfterBeingUpdated.addProperty("brand", "BMW");
+		carAfterBeingUpdated.addProperty("model", "5.20");
+		carAfterBeingUpdated.addProperty("constructionYear", "2019");
+		carAfterBeingUpdated.addProperty("color", "BLUE");
+		carAfterBeingUpdated.addProperty("fuelType", "Benzin");
+		carAfterBeingUpdated.addProperty("fuelConsumption", 7);
+		carAfterBeingUpdated.addProperty("numberOfDoors", 4);
+		carAfterBeingUpdated.addProperty("numberOfSeats", 4);
+		carAfterBeingUpdated.addProperty("numberOfCylinders", 8);
+
+		infotainmentTypes.add("NAVIGATION");
+		infotainmentTypes.add("AIRCONDITION");
+		carAfterBeingUpdated.add("infotainmentTypes", infotainmentTypes);
+
+		String carAfterBeingUpdatedAsString = gson.toJson(carAfterBeingUpdated);
 
 		given().
 				contentType("application/json").
-				body(carToBeAddedJSONString).
+				body(carToBeAddedAsString).
 				when().
 				post("/cars").
 				then().
 				assertThat().
-				body(equalTo(carToBeAddedJSONString));
+				body(equalTo(carToBeAddedAsString));
 
 		String updatedCarID = "101";
 
 		given().
 				contentType("application/json").
-				body(carAfterBeingUpdatedJSONString).
+				body(carAfterBeingUpdatedAsString).
 				when().
 				put("/cars/" + updatedCarID).
 				then().
@@ -170,30 +252,60 @@ public class PublicCarRentalBackendApplicationTests {
 
 	@Test
 	public void givenNonMatchingVINWhenCalling_UPDATE_endpoint_ThenRespondWithStatusNotFound() {
-		String carToBeAddedJSONString = "{\"id\":\"101\",\"brand\":\"BMW\",\"model\":\"5.20\"," +
-				"\"constructionYear\":\"2019\",\"color\":\"GRAY\",\"fuelType\":\"Benzin\",\"fuelConsumption\":5," +
-				"\"numberOfDoors\":4,\"numberOfSeats\":4,\"numberOfCylinders\":8,\"infotainmentTypes\":[\"NAVIGATION\"," +
-				"\"AIRCONDITION\"]}";
+		Gson gson = new Gson();
+		JsonObject carToBeAdded = new JsonObject();
+		JsonArray infotainmentTypes = new JsonArray();
 
-		String carAfterBeingUpdatedJSONString = "{\"id\":\"101\",\"brand\":\"BMW\",\"model\":\"5.20\"," +
-				"\"constructionYear\":\"2019\",\"color\":\"BLUE\",\"fuelType\":\"Benzin\",\"fuelConsumption\":7," +
-				"\"numberOfDoors\":4,\"numberOfSeats\":4,\"numberOfCylinders\":8,\"infotainmentTypes\":[\"NAVIGATION\"," +
-				"\"AIRCONDITION\"]}";
+		carToBeAdded.addProperty("id", "101");
+		carToBeAdded.addProperty("brand", "BMW");
+		carToBeAdded.addProperty("model", "5.20");
+		carToBeAdded.addProperty("constructionYear", "2019");
+		carToBeAdded.addProperty("color", "GRAY");
+		carToBeAdded.addProperty("fuelType", "Benzin");
+		carToBeAdded.addProperty("fuelConsumption", 5);
+		carToBeAdded.addProperty("numberOfDoors", 4);
+		carToBeAdded.addProperty("numberOfSeats", 4);
+		carToBeAdded.addProperty("numberOfCylinders", 8);
+
+		infotainmentTypes.add("NAVIGATION");
+		infotainmentTypes.add("AIRCONDITION");
+		carToBeAdded.add("infotainmentTypes", infotainmentTypes);
+
+		String carToBeAddedAsString = gson.toJson(carToBeAdded);
+
+		JsonObject carAfterBeingUpdated = new JsonObject();
+
+		carAfterBeingUpdated.addProperty("id", "101");
+		carAfterBeingUpdated.addProperty("brand", "BMW");
+		carAfterBeingUpdated.addProperty("model", "5.20");
+		carAfterBeingUpdated.addProperty("constructionYear", "2019");
+		carAfterBeingUpdated.addProperty("color", "BLUE");
+		carAfterBeingUpdated.addProperty("fuelType", "Benzin");
+		carAfterBeingUpdated.addProperty("fuelConsumption", 7);
+		carAfterBeingUpdated.addProperty("numberOfDoors", 4);
+		carAfterBeingUpdated.addProperty("numberOfSeats", 4);
+		carAfterBeingUpdated.addProperty("numberOfCylinders", 8);
+
+		infotainmentTypes.add("NAVIGATION");
+		infotainmentTypes.add("AIRCONDITION");
+		carAfterBeingUpdated.add("infotainmentTypes", infotainmentTypes);
+
+		String carAfterBeingUpdatedAsString = gson.toJson(carAfterBeingUpdated);
 
 		given().
 				contentType("application/json").
-				body(carToBeAddedJSONString).
+				body(carToBeAddedAsString).
 				when().
 				post("/cars").
 				then().
 				assertThat().
-				body(equalTo(carToBeAddedJSONString));
+				body(equalTo(carToBeAddedAsString));
 
 		String nonMatchingCarID = "202";
 
 		given().
 				contentType("application/json").
-				body(carAfterBeingUpdatedJSONString).
+				body(carAfterBeingUpdatedAsString).
 				when().
 				put("/cars/" + nonMatchingCarID).
 				then().
