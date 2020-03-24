@@ -12,7 +12,9 @@ System should provide a dashboard showing available cars with their actual locat
 
 The system should provide a service evaluation page for a user to evaluate trip satisfaction in terms of comfort, safety and driver experience. The ratings range should be from 1 to 5.
 
-### Used Technologies
+### High Level Architecture
+
+![Alt](PublicCarRental.svg)
 
 
 
